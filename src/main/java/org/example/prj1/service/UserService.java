@@ -9,9 +9,14 @@ import org.example.prj1.mapper.UserMapper;
 import org.example.prj1.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContextException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -33,26 +38,28 @@ public User createRequest(UserCreationRequest request)
     return userRepository.save(user);
 }
 
-public UserResponse updateUser(int id, UserUpdateRequest request) {
+public User updateUser(int id, UserUpdateRequest request) {
     User user = userRepository.findById(id)
             .orElseThrow(() -> new RuntimeException("User with id " + id + " not found"));
-    UserResponse userResponse = new UserResponse();
-    userResponse.setUsername(user.getUsername());
-    userResponse.setEmail(user.getEmail());
-    return userResponse;
+
+    user.setUsername(request.getUsername());
+    user.setEmail(request.getEmail());
+    return userRepository.save(user);
 
 }
-public List<User> getUser() {
-    return userRepository.findAll();
+public Page<User> getUser(Optional<Integer> page, Optional<Integer> size, Optional<String> sortBy) {
+    int pageindex = page.orElse(0);
+    int pagesize = size.orElse(5);
+    return userRepository.findAll(
+            PageRequest.of(
+                    pageindex,
+            pagesize,
+            Sort.Direction.ASC, sortBy.orElse("id")
+    ));
 }
-public UserResponse getUser(int id) {
-    User user = userRepository.findById(id)
+public User getUser(int id) {
+    return userRepository.findById(id)
             .orElseThrow(() -> new RuntimeException("User not found"));
-    UserResponse userResponse = new UserResponse();
-    userResponse.setUsername(user.getUsername());
-    userResponse.setEmail(user.getEmail());
-    return userResponse;
-
 
 }
 public void deleteUser(int id) {

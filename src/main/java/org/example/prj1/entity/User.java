@@ -2,6 +2,9 @@ package org.example.prj1.entity;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "app_user")
 public class User {
@@ -17,6 +20,8 @@ public class User {
     @Column(nullable = false)
     private String email;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<Todo> todos = new ArrayList<>();
     public User() {}
 
     public String getUsername() {
