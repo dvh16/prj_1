@@ -1,7 +1,9 @@
 package org.example.prj1.entity;
 
 import jakarta.persistence.*;
+import org.example.prj1.TodoStatus;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -12,23 +14,15 @@ public class Todo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String content;
-    private boolean completed;
-    private LocalDateTime createdAt;
+    private TodoStatus status;
+    private LocalDate createdAt;
 
+    @Enumerated(EnumType.STRING)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
 
     private User user;
 
-    public User getUser()
-    {
-        return user;
-    }
-    public void setUser(User user)
-    {
-        this.user = user;
-
-    }
     public int getId() {
         return id;
     }
@@ -45,30 +39,28 @@ public class Todo {
         this.content = content;
     }
 
-    public boolean isCompleted() {
-        return completed;
+    public TodoStatus getStatus() {
+        return status;
     }
 
-    public void setCompleted(boolean completed) {
-        this.completed = completed;
+    public void setStatus(TodoStatus status) {
+        this.status = status;
     }
 
-    public LocalDateTime getCreatedAt() {
+    public LocalDate getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
+    public void setCreatedAt(LocalDate createdAt) {
         this.createdAt = createdAt;
     }
-    public Todo()
-    {
+
+    public User getUser() {
+        return user;
     }
 
-    public Todo(int id, String content, boolean completed, LocalDateTime date) {
-        this.id = id;
-        this.content = content;
-        this.completed = completed;
-        this.createdAt = date;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     @Override
@@ -76,8 +68,19 @@ public class Todo {
         return "Todo{" +
                 "id=" + id +
                 ", content='" + content + '\'' +
-                ", completed=" + completed +
-                ", date=" + createdAt +
+                ", status=" + status +
+                ", createdAt=" + createdAt +
+                ", user=" + user +
                 '}';
+    }
+
+    public Todo()
+    {}
+    public Todo(int id, String content, TodoStatus status, LocalDate createdAt, User user) {
+        this.id = id;
+        this.content = content;
+        this.status = status;
+        this.createdAt = createdAt;
+        this.user = user;
     }
 }

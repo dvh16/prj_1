@@ -13,8 +13,8 @@ public class TodoMapper {
     public static Todo toEntity(TodoCreationRequest request, User user) {
         Todo todo = new Todo();
         todo.setContent(request.getContent());
-        todo.setCompleted(request.isCompleted());
-        todo.setCreatedAt(LocalDateTime.now());
+        todo.setStatus(request.getStatus());
+        todo.setCreatedAt(request.getCreatedAt());
         todo.setUser(user);
         return todo;
     }
@@ -23,10 +23,9 @@ public class TodoMapper {
         {
             TodoResponse response = new TodoResponse();
             response.setId(todo.getId());
-            response.setCompleted(todo.isCompleted());
+            response.setStatus(todo.getStatus());
             response.setContent(todo.getContent());
             response.setCreatedAt(todo.getCreatedAt());
-
             response.setUsername(todo.getUser().getUsername());
             return response;
         }

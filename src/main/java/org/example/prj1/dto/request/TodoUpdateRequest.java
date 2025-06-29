@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.example.prj1.TodoStatus;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -14,8 +15,8 @@ import java.time.LocalDateTime;
 @Builder
 public class TodoUpdateRequest {
     private String content;
-    private boolean completed;
+    private TodoStatus status;
     private int id;
-    private LocalDateTime createdAt;
+    private LocalDate createdAt;
 
 }

@@ -12,9 +12,7 @@ import org.example.prj1.mapper.TodoMapper;
 import org.example.prj1.repository.TodoRepository;
 import org.example.prj1.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;

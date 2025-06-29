@@ -5,6 +5,8 @@ import org.example.prj1.dto.request.UserCreationRequest;
 import org.example.prj1.dto.request.UserUpdateRequest;
 import org.example.prj1.dto.response.UserResponse;
 import org.example.prj1.entity.User;
+import org.example.prj1.exception.AppException;
+import org.example.prj1.exception.ErrorCode;
 import org.example.prj1.mapper.UserMapper;
 import org.example.prj1.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +32,7 @@ public class UserService {
 public User createRequest(UserCreationRequest request)
 {
     if(userRepository.existsByUsername(request.getUsername()))
-        throw new ApplicationContextException("Username already exists");
+        throw new AppException(ErrorCode.BAD_REQUEST);
     User user = new User();
     user.setUsername(request.getUsername());
     user.setPassword(request.getPassword());
@@ -40,7 +42,7 @@ public User createRequest(UserCreationRequest request)
 
 public User updateUser(int id, UserUpdateRequest request) {
     User user = userRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("User with id " + id + " not found"));
+            .orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND));
 
     user.setUsername(request.getUsername());
     user.setEmail(request.getEmail());
@@ -59,7 +61,7 @@ public Page<User> getUser(Optional<Integer> page, Optional<Integer> size, Option
 }
 public User getUser(int id) {
     return userRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("User not found"));
+            .orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND));
 
 }
 public void deleteUser(int id) {

@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.example.prj1.TodoStatus;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -17,8 +18,8 @@ import java.time.LocalDateTime;
 public class TodoCreationRequest {
     private int userId;
     private String content;
-    private boolean completed;
-    private LocalDateTime createdAt;
+    private TodoStatus status;
+    private LocalDate createdAt;
 
 
 
