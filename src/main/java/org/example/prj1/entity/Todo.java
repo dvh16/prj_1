@@ -1,11 +1,10 @@
 package org.example.prj1.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
-import org.example.prj1.TodoStatus;
+import org.example.prj1.enums.TodoStatus;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 @Entity
 @Table(name = "Todo")
@@ -19,6 +18,7 @@ public class Todo {
 
     @Enumerated(EnumType.STRING)
     @ManyToOne(fetch = FetchType.LAZY)
+    @JsonBackReference
     @JoinColumn(name = "user_id", nullable = false)
 
     private User user;

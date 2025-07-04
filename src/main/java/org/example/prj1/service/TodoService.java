@@ -1,7 +1,7 @@
 package org.example.prj1.service;
 
 import jakarta.transaction.Transactional;
-import org.example.prj1.TodoStatus;
+import org.example.prj1.enums.TodoStatus;
 import org.example.prj1.dto.request.TodoCreationRequest;
 import org.example.prj1.dto.request.TodoUpdateRequest;
 import org.example.prj1.dto.response.TodoResponse;
@@ -14,15 +14,12 @@ import org.example.prj1.mapper.TodoMapper;
 import org.example.prj1.repository.TodoRepository;
 import org.example.prj1.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContextException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import static org.antlr.v4.runtime.tree.xpath.XPath.findAll;
 
 
 @Service

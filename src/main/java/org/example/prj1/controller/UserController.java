@@ -10,9 +10,13 @@ import org.example.prj1.entity.Todo;
 import org.example.prj1.entity.User;
 import org.example.prj1.mapper.TodoMapper;
 import org.example.prj1.repository.TodoRepository;
+import org.example.prj1.service.LoginService_test;
 import org.example.prj1.service.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -22,6 +26,7 @@ import java.util.Optional;
 @RestController
 @RequestMapping("users")
 public class UserController {
+    private static final Logger log = LoggerFactory.getLogger(UserController.class);
     @Autowired
     private UserService userService;
     @Autowired
@@ -35,11 +40,15 @@ public class UserController {
             @RequestParam Optional<Integer> page,
             @RequestParam Optional<Integer> size,
             @RequestParam Optional<String> sortBy) {
-
+        var authentication =  SecurityContextHolder.getContext().getAuthentication();
+        log.info("Username: {}", authentication.getName());
+         authentication.getAuthorities().forEach(grantedAuthority -> log.info(grantedAuthority.getAuthority()));
         return userService.getUser(page, size, sortBy);
     }
     @GetMapping("/{id}")
+
     public User getUser(@PathVariable int id) {
+
         return userService.getUser(id);
     }
     @PutMapping("/{id}")

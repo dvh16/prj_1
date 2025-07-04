@@ -1,4 +1,4 @@
-package org.example.prj1;
+package org.example.prj1.enums;
 
 public enum TodoStatus {
     PENDING,
