@@ -32,10 +32,6 @@ public class LoginService_test {
     @NonFinal
     private static final String SIGNER_KEY = "Kuezs6rQaEq0mSjSoRE6NCXKUEE+OAzdbF9p1q7oxpVGqdz3neJXlgt48+v2+Pwm\\n";
 
-    @Bean
-    public PasswordEncoder encoder() {
-        return new BCryptPasswordEncoder();
-    }
 
     @Autowired
     PasswordEncoder passwordEncoder;
@@ -55,6 +51,10 @@ public class LoginService_test {
         if (!passwordEncoder.matches(rawPassword, encodedPassword)) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid username or password");
         }
+        System.out.println("Username: " + username);
+        System.out.println("Raw password: " + rawPassword);
+        System.out.println("Encoded from DB: " + encodedPassword);
+        System.out.println("Match result: " + passwordEncoder.matches(rawPassword, encodedPassword));
             String token = generateToken(userfromDB);
             Map<String, String> response = new HashMap<>();
             response.put("message", "Login Successful");

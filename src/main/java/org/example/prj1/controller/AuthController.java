@@ -17,10 +17,12 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
+
         return loginService.login(loginRequest);
     }
     @GetMapping("/login")
     public String login() {
+
         return "login";
     }
 

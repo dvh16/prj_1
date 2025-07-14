@@ -13,6 +13,8 @@ import org.example.prj1.exception.ErrorTodo;
 import org.example.prj1.mapper.TodoMapper;
 import org.example.prj1.repository.TodoRepository;
 import org.example.prj1.repository.UserRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,12 +33,13 @@ public class TodoService {
     private UserRepository userRepository;
 
     public Todo createTodo(TodoCreationRequest request) {
-        if (todoRepository.existsByContent(request.getContent()))
+        if (todoRepository.existsByUser_IdAndContent(request.getUserId(), request.getContent()))
             throw new AppException(ErrorTodo.BAD_REQUEST);
         User user = userRepository.findById(request.getUserId())
                 .orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND));
 
         Todo todo = TodoMapper.toEntity(request, user);
+
         return todoRepository.save(todo);
     }
 

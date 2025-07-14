@@ -9,6 +9,8 @@ import org.example.prj1.dto.response.TodoResponse;
 import org.example.prj1.entity.Todo;
 import org.example.prj1.repository.TodoRepository;
 import org.example.prj1.service.TodoService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +27,7 @@ public class TodoController {
     private TodoRepository todoRepository;
     @PostMapping
     public Todo createTodo(@RequestBody TodoCreationRequest request) {
+
         return todoService.createTodo(request);
     }
     @GetMapping

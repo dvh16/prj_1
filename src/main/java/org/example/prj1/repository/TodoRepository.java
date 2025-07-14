@@ -13,4 +13,5 @@ public interface TodoRepository extends JpaRepository<Todo, Integer> {
     List<Todo> findByStatusAndCreatedAt(TodoStatus status, LocalDate createdAt);
     boolean existsByContent(String content);
     List<Todo> findByUserId(int userId);
+    boolean existsByUser_IdAndContent(int userId, String content);
 }

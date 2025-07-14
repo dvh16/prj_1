@@ -21,5 +21,4 @@ public class TodoCreationRequest {
     private LocalDate createdAt;
 
 
-
 }
