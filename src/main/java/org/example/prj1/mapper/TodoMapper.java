@@ -27,6 +27,12 @@ public class TodoMapper {
             response.setContent(todo.getContent());
             response.setCreatedAt(todo.getCreatedAt());
             response.setUsername(todo.getUser().getUsername());
+
+            if(todo.getAttachment() != null)
+            {
+                response.setAttachmentId(todo.getAttachment().getId());
+                response.setAttachmentName(todo.getAttachment().getFilename());
+            }
             return response;
         }
 }

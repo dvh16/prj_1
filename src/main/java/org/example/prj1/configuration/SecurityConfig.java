@@ -28,9 +28,9 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.POST,"/login", "/users", "/upload", "/todo",  "/").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/users", "/users/**").hasAuthority("SCOPE_ADMIN")
+                        .requestMatchers(HttpMethod.GET,"/users","/users/**").hasAuthority("SCOPE_ADMIN")
                         .requestMatchers(HttpMethod.GET, "/login").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/users/**").hasAuthority("SCOPE_ADMIN")
+                        .requestMatchers("/auth/register").permitAll()
 
                         .anyRequest().authenticated()
                 )

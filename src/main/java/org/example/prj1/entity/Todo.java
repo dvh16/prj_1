@@ -16,6 +16,9 @@ public class Todo {
     private TodoStatus status;
     private LocalDate createdAt;
 
+    @OneToOne
+    private Attachment attachment;
+
     @Enumerated(EnumType.STRING)
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonBackReference
@@ -61,6 +64,14 @@ public class Todo {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public Attachment getAttachment() {
+        return attachment;
+    }
+
+    public void setAttachment(Attachment attachment) {
+        this.attachment = attachment;
     }
 
     @Override

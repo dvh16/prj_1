@@ -16,6 +16,7 @@ import org.example.prj1.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -90,5 +91,12 @@ public class TodoService {
                 .map(TodoMapper::TodoResponse)
                 .collect(Collectors.toList());
     }
-
+    public Todo findById(int id) {
+        return todoRepository.findById(id)
+                .orElseThrow(() -> new AppException(ErrorTodo.NOT_FOUND));
+    }
+    public void save(Todo todo)
+    {
+        todoRepository.save(todo);
+    }
 }

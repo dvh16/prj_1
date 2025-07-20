@@ -5,16 +5,13 @@ import com.nimbusds.jose.crypto.MACSigner;
 import com.nimbusds.jwt.JWTClaimsSet;
 import lombok.experimental.NonFinal;
 import org.example.prj1.dto.request.LoginRequest;
-import org.example.prj1.dto.request.UserCreationRequest;
 import org.example.prj1.entity.User;
 import org.example.prj1.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -24,8 +21,8 @@ import java.time.temporal.ChronoUnit;
 import java.util.*;
 
 @Service
-public class LoginService_test {
-    private static final Logger log = LoggerFactory.getLogger(LoginService_test.class);
+public class LoginService {
+    private static final Logger log = LoggerFactory.getLogger(LoginService.class);
 
     @Autowired
     private UserRepository userRepository;
@@ -51,10 +48,6 @@ public class LoginService_test {
         if (!passwordEncoder.matches(rawPassword, encodedPassword)) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid username or password");
         }
-        System.out.println("Username: " + username);
-        System.out.println("Raw password: " + rawPassword);
-        System.out.println("Encoded from DB: " + encodedPassword);
-        System.out.println("Match result: " + passwordEncoder.matches(rawPassword, encodedPassword));
             String token = generateToken(userfromDB);
             Map<String, String> response = new HashMap<>();
             response.put("message", "Login Successful");

@@ -2,18 +2,22 @@ package org.example.prj1.controller;
 
 
 
+import org.example.prj1.entity.Attachment;
 import org.example.prj1.enums.TodoStatus;
 import org.example.prj1.dto.request.TodoCreationRequest;
 import org.example.prj1.dto.request.TodoUpdateRequest;
 import org.example.prj1.dto.response.TodoResponse;
 import org.example.prj1.entity.Todo;
 import org.example.prj1.repository.TodoRepository;
+import org.example.prj1.service.AttachmentService;
 import org.example.prj1.service.TodoService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.function.EntityResponse;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -25,6 +29,9 @@ public class TodoController {
     private TodoService todoService;
     @Autowired
     private TodoRepository todoRepository;
+    @Autowired
+    private AttachmentService attachmentService;
+
     @PostMapping
     public Todo createTodo(@RequestBody TodoCreationRequest request) {
 
@@ -57,4 +64,14 @@ public class TodoController {
     {
         return todoService.filterTodos(status, date);
     }
+
+    @PostMapping("/{id}/attach")
+    public ResponseEntity<?> attachFileTodo(@PathVariable int id, @RequestParam String fileId) throws Exception {
+        Todo todo = todoService.findById(id);
+        Attachment file = attachmentService.getAttachment(fileId);
+        todo.setAttachment(file);
+        todoService.save(todo);
+        return ResponseEntity.ok("File attached");
+    }
+
 }

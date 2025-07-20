@@ -17,4 +17,6 @@ public class TodoResponse {
     private LocalDate createdAt;
     private String username;
     private int id;
+    private String attachmentId;
+    private String attachmentName;
 }
