@@ -1,5 +1,6 @@
 package org.example.prj1.controller;
 
+import jakarta.validation.Valid;
 import org.example.prj1.dto.request.RegisterRequest;
 import org.example.prj1.service.RegisterService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,7 @@ public class RegisterController {
     @Autowired
     private RegisterService registerService;
 @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody RegisterRequest registerRequest) {
+    public ResponseEntity<String> register(@RequestBody @Valid RegisterRequest registerRequest) {
     try{
         registerService.register(registerRequest);
         return ResponseEntity.ok("Registered successful");

@@ -2,6 +2,7 @@ package org.example.prj1.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import lombok.extern.slf4j.Slf4j;
 import org.example.prj1.Prj1Application;
 import org.example.prj1.dto.request.TodoCreationRequest;
@@ -27,10 +28,10 @@ import java.time.LocalDate;
 @Slf4j
 @SpringBootTest
 @AutoConfigureMockMvc
+
 public class TodoControllerTest {
 
-    @Autowired
-    private MockMvc mvc;
+
 
     @MockBean
     private TodoService todoService;
@@ -50,14 +51,16 @@ public class TodoControllerTest {
                 .build();
 
 
+        this.todo = new Todo();
         todo.setContent("test");
         todo.setCreatedAt(LocalDate.parse("2025-07-16"));
         todo.setStatus(TodoStatus.PENDING);
     }
     @Test
-    void createTodo() throws Exception {
+    void createTodo_validRequest_success() throws Exception {
          //GIVEN
         ObjectMapper mapper = new ObjectMapper();
+        mapper.registerModule(new JavaTimeModule());
         String content = mapper.writeValueAsString(request);
 
         Mockito.when(todoService.createTodo(ArgumentMatchers.any())).
@@ -65,12 +68,13 @@ public class TodoControllerTest {
 
                  //WHEN
         mockMvc.perform(MockMvcRequestBuilders
-                .post("/todos")
+                .post("/todo")
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .content(content))
                 .andExpect(MockMvcResultMatchers.status().isOk()
                 );
 
-         //THEN
+
     }
+
 }

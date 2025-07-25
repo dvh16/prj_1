@@ -11,18 +11,28 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
     @ExceptionHandler(value = RuntimeException.class)
-    ResponseEntity<String> handlingException(RuntimeException exception) {
-        return ResponseEntity.badRequest().body(exception.getMessage());
+    ResponseEntity<ErrorResponse> handlingException(RuntimeException ex) {
+
+        ErrorResponse response = new ErrorResponse(
+                HttpStatus.BAD_REQUEST,
+                ex.getMessage(),
+                "RUNTIME_ERROR"
+        );
+        return ResponseEntity.badRequest().body(response);
     }
 
-    @ExceptionHandler(value = MethodArgumentNotValidException.class)
-    ResponseEntity<String> handlingMethodArgumentNotValidException(MethodArgumentNotValidException exception) {
-        if (exception.getBindingResult().hasErrors())
-            return ResponseEntity.badRequest().body(exception.getFieldError().getDefaultMessage());
-        else
-            return ResponseEntity.badRequest().body("Validation Failed");
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<ErrorResponse> handleValidation(MethodArgumentNotValidException ex) {
+        String errorMsg = ex.getBindingResult().getFieldError() != null ?
+                ex.getBindingResult().getFieldError().getDefaultMessage() :
+                "Validation failed";
+        ErrorResponse response = new ErrorResponse(
+                HttpStatus.BAD_REQUEST,
+                errorMsg,
+                "VALIDATION_ERROR"
+        );
+        return ResponseEntity.badRequest().body(response);
     }
-
     @ExceptionHandler(AppException.class)
     public ResponseEntity<ErrorResponse> handleAppException(AppException ex) {
         ErrorResponse response = new ErrorResponse(

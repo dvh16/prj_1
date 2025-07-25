@@ -16,6 +16,8 @@ public class TodoMapper {
         todo.setStatus(request.getStatus());
         todo.setCreatedAt(request.getCreatedAt());
         todo.setUser(user);
+        todo.setStatus(request.getStatus());
+           
         return todo;
     }
 
